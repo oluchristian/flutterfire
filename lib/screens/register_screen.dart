@@ -1,8 +1,11 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/screens/home_screen.dart';
 import 'package:flutter_firebase/screens/login_screen.dart';
 import 'package:flutter_firebase/services/auth_service.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
@@ -119,6 +122,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 "Already have an account? Login here",
               ),
             ),
+            SizedBox(height: 20,),
+            Divider(),
+            SizedBox(height: 20,),
+            loading? CircularProgressIndicator() : SignInButton(Buttons.Google, text: "Continue with google", onPressed: ()async{
+              setState(() {
+                loading = true;
+              });
+              await AuthService().signInWithGoogle();
+
+              setState(() {
+                loading = false;
+              });
+            })
           ],
         ),
       ),

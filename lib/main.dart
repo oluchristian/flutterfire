@@ -34,3 +34,13 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// StreamBuilder(
+//         stream: AuthService().firebaseAuth.authStateChanges(),
+//         builder: (context, snapshot) {
+//           if (snapshot.hasData) {
+//             return RegisterScreen();
+//           } 
+//           return RegisterScreen();
+//         },
+//       ),

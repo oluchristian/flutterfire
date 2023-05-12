@@ -1,14 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/screens/home_screen.dart';
 import 'package:flutter_firebase/screens/login_screen.dart';
 import 'package:flutter_firebase/services/auth_service.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   TextEditingController confirmPasswordController = TextEditingController();
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,39 +58,67 @@ class RegisterScreen extends StatelessWidget {
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (emailController.text == "" || passwordController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('All fields are required'), backgroundColor: Colors.red,));
-                  } else if(passwordController.text != confirmPasswordController.text){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Passwords do not match!'), backgroundColor: Colors.red,));
-                  }else{
-                    User? result = await AuthService().register(emailController.text, passwordController.text);
-                    if (result != null) {
-                      print('success');
-                      print(result.email);
-                    }
-                  }
-                },
-                child: Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+            loading
+                ? CircularProgressIndicator()
+                : Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          loading = true;
+                        });
+                        if (emailController.text == "" ||
+                            passwordController.text == "") {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('All fields are required'),
+                            backgroundColor: Colors.red,
+                          ));
+                        } else if (passwordController.text !=
+                            confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('Passwords do not match!'),
+                            backgroundColor: Colors.red,
+                          ));
+                        } else {
+                          User? result = await AuthService().register(
+                              emailController.text,
+                              context,
+                              passwordController.text);
+                          if (result != null) {
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                          }
+                        }
+                        setState(() {
+                          loading = false;
+                        });
+                      },
+                      child: const Text(
+                        "Submit",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+              child: Text(
+                "Already have an account? Login here",
               ),
             ),
-            SizedBox(height: 20,),
-            TextButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
-            }, child: Text("Already have an account? Login here",),),
           ],
         ),
       ),

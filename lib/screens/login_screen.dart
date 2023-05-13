@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   } else{
                     User? result = await AuthService().login(emailController.text, context, passwordController.text);
                     if (result != null) {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen(user: result)), (route) => false);
                     }
                   }
                   setState(() {

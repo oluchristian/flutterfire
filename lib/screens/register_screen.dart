@@ -94,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               context,
                               passwordController.text);
                           if (result != null) {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen(user: result)), (route) => false);
                           }
                         }
                         setState(() {

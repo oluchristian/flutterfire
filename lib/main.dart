@@ -18,15 +18,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Firebase',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
       ),
       home: StreamBuilder(
         stream: AuthService().firebaseAuth.authStateChanges(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return HomeScreen();
+            return HomeScreen(user: snapshot.data,);
           } 
           return RegisterScreen();
         },

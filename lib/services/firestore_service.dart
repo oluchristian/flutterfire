@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class FireStoreService{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future insterNote(String title, String description, String userId) async {
+  Future insertNote(String title, String description, String userId) async {
     try {
       await firestore.collection('notes').add(
        {

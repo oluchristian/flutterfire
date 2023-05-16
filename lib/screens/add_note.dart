@@ -79,7 +79,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       setState(() {
                         loading = true;
                       });
-                      await FireStoreService().insterNote(titleController.text, descriptionController.text, widget.user.uid);
+                      await FireStoreService().insertNote(titleController.text, descriptionController.text, widget.user.uid);
                       setState(() {
                         loading = false;
                       });

@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
-              onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditNoteScreen()));},
+              onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditNoteScreen(note: note,)));},
             ),
           );
                 }

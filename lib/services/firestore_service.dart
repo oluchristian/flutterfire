@@ -18,4 +18,15 @@ class FireStoreService{
       
     }
   }
+
+  Future updateNote(String docId, String title, String description) async{
+    try {
+      await fireStore.collection('notes').doc(docId).Update([
+        'title': title,
+        'description': description,
+      ]);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

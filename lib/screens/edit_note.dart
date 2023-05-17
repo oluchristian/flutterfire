@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/models/note.dart';
 
 class EditNoteScreen extends StatefulWidget {
-  const EditNoteScreen({super.key});
+  NoteModel note;
+  EditNoteScreen({super.key, required this.note});
 
   @override
   State<EditNoteScreen> createState() => _EditNoteScreenState();
@@ -9,6 +11,15 @@ class EditNoteScreen extends StatefulWidget {
 
 class _EditNoteScreenState extends State<EditNoteScreen> {
   TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  bool loading = false;
+
+  @override
+  void initState() {
+    titleController.text = widget.note.title;
+    descriptionController.text = widget.note.description;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +47,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                 height: 20,
               ),
               TextField(
+                controller: titleController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                 ),
@@ -54,7 +66,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                 height: 20,
               ),
               TextField(
-                controller: titleController,
+                controller: descriptionController,
                 minLines: 5,
                 maxLines: 10,
                 decoration: InputDecoration(

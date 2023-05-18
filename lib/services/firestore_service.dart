@@ -19,12 +19,20 @@ class FireStoreService{
     }
   }
 
-  Future updateNote(String docId, String title, String description) async{
+    Future updateNote(String docId, String title, String description) async{
     try {
-      await fireStore.collection('notes').doc(docId).Update([
+      await firestore.collection('notes').doc(docId).update({
         'title': title,
         'description': description,
-      ]);
+    });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future deleteNote(String docId) async{
+    try {
+      await firestore.collection('notes').doc(docId).delete();
     } catch (e) {
       print(e);
     }

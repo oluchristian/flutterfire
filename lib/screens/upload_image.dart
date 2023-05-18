@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UploadImageScreen extends StatefulWidget {
   const UploadImageScreen({super.key});
@@ -136,7 +137,13 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                               child: Card(
                             child: Container(
                               height: 200,
-                              child: Image.network(image['url']),
+                              child: CachedNetworkImage(
+                                imageUrl: image['url'],
+                                placeholder: (context, url) {
+                                  return Image.asset('images/placeholder.jpg');
+                                },
+                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                ),
                             ),
                           )),
                           IconButton(
